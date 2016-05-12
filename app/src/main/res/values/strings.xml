@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AndroidMapsProject</string>
+    <string name="action_settings">Settings</string>
+    <string name="logOut">Log Out</string>
+    <string name="title_activity_screen_slide">ScreenSlideActivity</string>
+    <string name="about">About</string>
+    <string name="add">New Route</string>
+    }
+    <string name="myRoute">My Routes</string>
+    <string name="friendsRoute">Friends Routes</string>
+    <string-array name="titles">
+        <item>@string/about</item>
+        <item>@string/add</item>
+        <item>@string/myRoute</item>
+        <item>@string/friendsRoute</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+
+
+</resources>
