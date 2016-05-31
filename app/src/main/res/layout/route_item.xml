@@ -24,8 +24,11 @@
         <Button
             android:id="@+id/button3"
             android:text="Column 3" />
-        <Button
+        <ImageButton
+            android:src="@drawable/icon_delete"
             android:id="@+id/button4"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:text="Column 4" />
     </TableRow>
 
