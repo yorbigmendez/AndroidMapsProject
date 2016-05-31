@@ -27,7 +27,7 @@
         <ImageButton
             android:src="@drawable/icon_delete"
             android:id="@+id/button4"
-            android:text="Column 4" />
+            android:text="Column 2" />
     </TableRow>
 
     <View
