@@ -1,45 +1,55 @@
 package com.example.admin.androidmapsproject;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
-public class ScreenSlideActivity extends ActionBarActivity {
+public class ScreenSlideActivity extends FragmentActivity implements AboutFragment.OnFragmentInteractionListener,MapsFragment.OnFragmentInteractionListener, MyRoutes.OnFragmentInteractionListener, MyFriendsFragment.OnFragmentInteractionListener{
     //Variables used for the class
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ArrayList<Drawable> arrayIcons;
-
+    private  static RouteApi api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        api = new RouteApi();
+        try {
+            ArrayList<Route> a = api.GetAll();
+            //Log.d("array", a.get(1).getRouteName());
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         //Toggle all the widgets used
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         CustomAdapter adapterTabs = new CustomAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapterTabs);
         viewPager.setOffscreenPageLimit(2);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF"));
         //Add tab with viewpager
+
         tabLayout.setupWithViewPager(viewPager);
         //Override the on tab selected actions
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -91,6 +101,11 @@ public class ScreenSlideActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        //Communication between fragments
+    }
+
     //The adapter for the pager
     //You must log out to see the listView with the updated items
     public class CustomAdapter extends FragmentPagerAdapter {
@@ -99,7 +114,7 @@ public class ScreenSlideActivity extends ActionBarActivity {
 
         public CustomAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
-            mFragmentTags = new HashMap<Integer, String>();
+            mFragmentTags = new HashMap<>();
         }
 
         //Selec te action on each tab selection
@@ -107,16 +122,16 @@ public class ScreenSlideActivity extends ActionBarActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new TestFragment();
+                    return new AboutFragment();
                     //FragmentAbout
                 case 1:
-                    return new TestFragment();
+                    return new MapsFragment();
                     //Fragment List
                 case 2:
-                    return new TestFragment();
+                    return new MyRoutes();
                     //Fragment Manage
                 case 3:
-                    return new TestFragment();
+                    return new MyFriendsFragment();
                 //Fragment Manage
                 default:
                     return null;
