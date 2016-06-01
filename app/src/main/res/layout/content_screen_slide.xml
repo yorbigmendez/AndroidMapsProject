@@ -16,7 +16,7 @@
         android:id="@+id/tabLayout"
         android:layout_marginTop="0dp"
         android:layout_gravity="center_horizontal"
-        android:background="#0080FF"
+        android:background="#088A4B"
         >
     </android.support.design.widget.TabLayout>
 

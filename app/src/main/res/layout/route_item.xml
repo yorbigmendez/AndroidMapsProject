@@ -12,22 +12,26 @@
         android:padding="5dip" >
 
         <ImageView
-            android:id="@+id/textView1"
-            android:text="Column 1"
-            android:src="@android:drawable/arrow_up_float"
+            android:id="@+id/imgRoute"
+            android:src="@drawable/icon_route"
             android:layout_height="fill_parent"
             android:layout_width="50dp"/>
 
-        <Button
-            android:id="@+id/button2"
-            android:text="Column 2" />
-        <Button
-            android:id="@+id/button3"
-            android:text="Column 3" />
+        <TextView
+            android:id="@+id/txtRouteName"
+            android:textSize="30dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="7dp"
+            android:text="Finca #1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
         <ImageButton
-            android:src="@drawable/icon_delete"
-            android:id="@+id/button4"
-            android:text="Column 2" />
+            android:src="@drawable/icon_edit"
+            android:id="@+id/btnEdit" />
+        <ImageButton
+            android:src="@drawable/icon_remove"
+            android:id="@+id/btnRemove" />
     </TableRow>
 
     <View
