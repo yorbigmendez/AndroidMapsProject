@@ -15,8 +15,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/tabLayout"
         android:layout_marginTop="0dp"
+        app:tabIndicatorColor="@android:color/white"
         android:layout_gravity="center_horizontal"
-        android:background="#088A4B"
+        android:background="#29088A"
         >
     </android.support.design.widget.TabLayout>
 

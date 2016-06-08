@@ -1,9 +1,5 @@
 package com.example.admin.androidmapsproject;
 
-/**
- * Created by Juan on 5/31/2016.
- */
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,44 +7,47 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 
-public class MyFriendsFragment extends Fragment {
+public class MyRoutes extends Fragment {
+    private ListView listViewRoutes;
+    private AdapterMyRoutes adapter;
+    private ArrayList<Route> myRoutes;
 
     private OnFragmentInteractionListener mListener;
 
-    public MyFriendsFragment() {
+    public MyRoutes() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    public void populateRoute(){
+        this.myRoutes = new ArrayList<>();
+        this.myRoutes.add(new Route("Route #1"));
+        this.myRoutes.add(new Route("Route #2"));
+        this.myRoutes.add(new Route("Route #3"));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_friends, container, false);
-
-
-        //populate listView
-        AdapterFriends adapter = new AdapterFriends(getActivity().getApplicationContext());
-        ListView listView = (ListView)view.findViewById(R.id.myFriendsListView);
-        listView.setAdapter(adapter);
-
+        View view = inflater.inflate(R.layout.fragment_my_routes, container, false);
+        populateRoute();
+        listViewRoutes = (ListView)view.findViewById(R.id.listViewRoutes);
+        listViewRoutes.setAdapter(new AdapterMyRoutes(getActivity().getApplicationContext(),myRoutes));
         return view;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
