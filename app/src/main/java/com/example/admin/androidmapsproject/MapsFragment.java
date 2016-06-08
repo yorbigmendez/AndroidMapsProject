@@ -27,8 +27,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -52,7 +50,6 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
 
     private static View view;
 
-    private static Double latitude, longitude;
     private GoogleMap mMap;
     private int machete = 0;
     private static LatLng marca;
@@ -89,13 +86,9 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
         btnFinal = (Button)view.findViewById(R.id.btnFinal);
         btnInicio.setOnClickListener(this);
         btnFinal.setOnClickListener(this);
-        //latitude = 26.78;
-        //longitude = 72.56;
         getLocation();
         locationListener.onLocationChanged(location);
-
         setUpMapIfNeeded(); // For setting up the MapFragment
-
         return view;
     }
 
@@ -112,7 +105,6 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
                     }
                 };
                 h.postDelayed(test, delay);
-
                 break;
             case R.id.btnFinal:
                 machete = 0;
@@ -124,49 +116,34 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
         }
     }
     private void trazarCamino() {
-        Log.d("Estoy en trazar camino", (String.valueOf(marcadorInicial)));
         if (machete == 0) {
             markerActual.remove();
-            markerActual = mMap.addMarker(setMarkerIniFin(marca, "My Home", "Home Address"));
-            if (machete == 0) {
-                markerActual.remove();
-                markerActual = mMap.addMarker(setMarkerIniFin(marca, "Inicio", "Carrera Los pegados"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(marca));
-                machete++;
-            } else {
-                markerActual = mMap.addMarker(setMarkerRun(marca, "Mi posicón"));
-            }
-            if (marcadorInicial == false) {
-                //Guardar en la base de datos aquí
-                markerAnterior.remove();
-                Log.d("marcador inicial", (String.valueOf(marcadorInicial)));
-            }
-            if (markerAnterior != null) {
-                PolylineOptions options = new PolylineOptions()
-                        .add(markerActual.getPosition())
-                        .add(markerAnterior.getPosition());
-                mMap.addPolyline(options);
-                marcadorInicial = false;
-            }
-            markerAnterior = markerActual;
+            markerActual = mMap.addMarker(setMarkerIniFin(marca, "Inicio", "Carrera TEC"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(marca));
+            machete++;
+        } else {
+            markerActual = mMap.addMarker(setMarkerRun(marca, "Mi posicón"));
         }
-
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera. In this case,
-         * we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to install
-         * it inside the SupportMapFragment. This method will only be triggered once the user has
-         * installed Google Play services and returned to the app.
-         */
+        if (marcadorInicial == false) {
+            //Guardar en la base de datos aquí
+            markerAnterior.remove();
+        }
+        if (markerAnterior != null) {
+            PolylineOptions options = new PolylineOptions()
+                    .add(markerActual.getPosition())
+                    .add(markerAnterior.getPosition());
+            mMap.addPolyline(options);
+            marcadorInicial = false;
+        }
+        markerAnterior = markerActual;
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        markerActual = mMap.addMarker(setMarkerIniFin(marca, "Inicio", "Carrera Los pegados"));
+        markerActual.remove();
+        markerActual = mMap.addMarker(setMarkerIniFin(marca, "Inicio", "Carrera TEC"));
         mMap.moveCamera(CameraUpdateFactory.zoomBy(15));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(marca));
         //mMap.setMyLocationEnabled(true);
@@ -281,9 +258,6 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
             if (mMap != null){
                 setUpMap();
             }
-            // Check if we were successful in obtaining the map.
-            if (mMap != null)
-                setUpMap();
         }
     }
 
@@ -300,17 +274,13 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
             //Request the permision
         }
         //mMap.setMyLocationEnabled(true);
-        // For dropping a marker at a point on the Map
-
-        markerActual = mMap.addMarker(setMarkerIniFin(marca,"Actual","Running"));
+        // For dropping a marker at a point on the Ma
         // For zooming automatically to the Dropped PIN Location
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marca, 12.0f));
-        mMap.setMyLocationEnabled(true);
         // For dropping a marker at a point on the Map
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("My Home").snippet("Home Address"));
+        markerActual =  mMap.addMarker(setMarkerIniFin(marca,"My Home","Go Diggidy"));
         // For zooming automatically to the Dropped PIN Location
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,
-                longitude), 12.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marca, 12.0f));
     }
 
     @Override
@@ -323,31 +293,11 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
             SupportMapFragment myMapFragment=  ((SupportMapFragment) getChildFragmentManager()
                     .findFragmentById(R.id.location_map)); // getMap is deprecated
             myMapFragment.getMapAsync(this);
-            myMapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap googleMap) {
-                    mMap = googleMap;
-                    setUpMapIfNeeded();
-                }
-            });
             // Check if we were successful in obtaining the map.
             if (mMap != null)
                 setUpMap();
         }
     }
-/*
-    *** The mapfragment's id must be removed from the FragmentManager
-     **** or else if the same it is passed on the next time then
-     **** app will crash ***
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mMap != null) {
-            ScreenSlideActivity.fragmentManager.beginTransaction()
-                        .remove(ScreenSlideActivity.fragmentManager.findFragmentById(R.id.location_map)).commit();
-            mMap = null;
-        }
-    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
