@@ -28,6 +28,7 @@ public class ScreenSlideActivity extends FragmentActivity implements AboutFragme
     //Variables used for the class
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ArrayList<Drawable> arrayIcons;
     private  static RouteApi api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +123,6 @@ public class ScreenSlideActivity extends FragmentActivity implements AboutFragme
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    /*Intent intent = new Intent(ScreenSlideActivity.this,MapsActivity.class);
-                    startActivity(intent);*/
                     return new AboutFragment();
                     //FragmentAbout
                 case 1:
