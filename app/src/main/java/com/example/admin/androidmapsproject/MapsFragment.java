@@ -108,6 +108,8 @@ public class MapsFragment extends Fragment implements View.OnClickListener, OnMa
 
                 break;
             case R.id.btnFinal:
+                machete = 0;
+                markerActual = mMap.addMarker(setMarkerIniFin(marca, "Fin", "Run"));
                 h.removeCallbacks(test);
                 break;
             default:

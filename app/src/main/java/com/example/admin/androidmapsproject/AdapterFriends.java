@@ -24,6 +24,10 @@ public class AdapterFriends extends BaseAdapter {
         this.context = context;
         populateMyFriends();
     }
+
+    public void setArrayListFriends(ArrayList<Friend> m){
+        myFriends = m;
+    }
     /**
      * How many items are in the data set represented by this Adapter.
      *
